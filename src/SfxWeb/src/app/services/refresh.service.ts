@@ -14,7 +14,7 @@ export class RefreshService {
   private currentSync: Subscription;
   private previousRefreshSetting = 0;
 
-  private refreshSubjects: (() => Observable<any>; ) [] = [];
+  private refreshSubjects: (() => Observable<any>)[] = [];
   private _refreshSubjectsMap: Record<string, () => Observable<any>> = {};
 
   constructor(private storage: StorageService) { }

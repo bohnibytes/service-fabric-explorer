@@ -475,6 +475,8 @@ export class PartitionTimelineGenerator extends TimeLineGeneratorBase<NodeEvent>
     }
 }
 
+
+
 /**
  * Take a csv string and parses the event into groups with nested references to properties specified in the query string.
  * i.e "Category, Kind"
@@ -489,7 +491,7 @@ export class PartitionTimelineGenerator extends TimeLineGeneratorBase<NodeEvent>
  * @param groupIds
  * @param query
  */
-function parseAndAddGroupIdByString(event: FabricEvent, groupIds: any, query: string): string {
+function parseAndAddGroupIdByString(event: FabricEvent, groupIds: DataGroup[], query: string): string {
     const properties = query.split(',');
 
     // the accumulated path of the events property values
@@ -505,7 +507,7 @@ function parseAndAddGroupIdByString(event: FabricEvent, groupIds: any, query: st
             if (findIndex(groupIds, (g: DataGroup) => g.id === currentPath) === -1) {
 
                 const content = padStart('', i * 3) + event.raw[prop].toString();
-                const childGroup = {id: currentPath, content, treeLevel: (i + 1) };
+                const childGroup: DataGroup = {id: currentPath, content };
 
                 // "leaf" rows dont have nested rows
                 if ( (i + 1) < properties.length) {
@@ -560,7 +562,7 @@ export function parseEventsGenerically(events: FabricEvent[], textSearch: string
             }
         }
 
-       const item = {
+       const item: DataItem = {
             content: '',
             id: index,
             start: event.timeStamp,
