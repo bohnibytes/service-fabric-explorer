@@ -1,4 +1,4 @@
-﻿import { DataModelBase, IDecorators } from './Base';
+import { DataModelBase, IDecorators } from './Base';
 import { IRawDeployedApplication, IRawApplicationHealth } from '../RawDataTypes';
 import { HtmlUtils } from 'src/app/Utils/HtmlUtils';
 import { DeployedServicePackageCollection } from './collections/Collections';
@@ -9,15 +9,15 @@ import { IResponseMessageHandler } from 'src/app/Common/ResponseMessageHandlers'
 import { Observable } from 'rxjs';
 import { HealthBase } from './HealthEvent';
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // Licensed under the MIT License. See License file under the project root for license information.
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 export class DeployedApplication extends DataModelBase<IRawDeployedApplication> {
     public decorators: IDecorators = {
         decorators: {
-            "TypeName": {
+            TypeName: {
                 displayValueInHtml: (value) => HtmlUtils.getLinkHtml(value, this.appTypeViewPath)
             }
         }
@@ -43,7 +43,7 @@ export class DeployedApplication extends DataModelBase<IRawDeployedApplication> 
 
     public get diskLocation(): string {
         if (this.raw.WorkDirectory) {
-            return this.raw.WorkDirectory.substring(0, this.raw.WorkDirectory.lastIndexOf("\\"));
+            return this.raw.WorkDirectory.substring(0, this.raw.WorkDirectory.lastIndexOf('\\'));
         } else {
             return this.raw.WorkDirectory;
         }
@@ -86,8 +86,8 @@ export class DeployedApplication extends DataModelBase<IRawDeployedApplication> 
 
 export class DeployedApplicationHealth extends HealthBase<IRawApplicationHealth> {
     public constructor(data: DataService, public parent: DeployedApplication,
-        protected eventsHealthStateFilter: HealthStateFilterFlags,
-        protected deployedServicePackagesHealthFilter: HealthStateFilterFlags) {
+                       protected eventsHealthStateFilter: HealthStateFilterFlags,
+                       protected deployedServicePackagesHealthFilter: HealthStateFilterFlags) {
         super(data, parent);
     }
 

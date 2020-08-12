@@ -17,16 +17,16 @@ export class EssentialsComponent extends ServiceBaseController {
   unhealthyEvaluationsListSettings: ListSettings;
 
 
-  constructor(protected data: DataService, injector: Injector, private settings: SettingsService) { 
+  constructor(protected data: DataService, injector: Injector, private settings: SettingsService) {
     super(data, injector);
   }
 
   setup() {
-    this.listSettings = this.settings.getNewOrExistingListSettings("partitions", ["id"], [
-      new ListColumnSettingForLink("id", "Id", item => item.viewPath),
-      new ListColumnSettingWithFilter("partitionInformation.raw.ServicePartitionKind", "Partition Kind"),
-      new ListColumnSettingForBadge("healthState", "Health State"),
-      new ListColumnSettingWithFilter("raw.PartitionStatus", "Status"),
+    this.listSettings = this.settings.getNewOrExistingListSettings('partitions', ['id'], [
+      new ListColumnSettingForLink('id', 'Id', item => item.viewPath),
+      new ListColumnSettingWithFilter('partitionInformation.raw.ServicePartitionKind', 'Partition Kind'),
+      new ListColumnSettingForBadge('healthState', 'Health State'),
+      new ListColumnSettingWithFilter('raw.PartitionStatus', 'Status'),
     ]);
 
     this.unhealthyEvaluationsListSettings = this.settings.getNewOrExistingUnhealthyEvaluationsListSettings();

@@ -1,4 +1,4 @@
-﻿import { IRawPartition, IRawPartitionHealth, IRawPartitionInformation, IRawPartitionLoadInformation, IRawLoadMetricReport } from '../RawDataTypes';
+import { IRawPartition, IRawPartitionHealth, IRawPartitionInformation, IRawPartitionLoadInformation, IRawLoadMetricReport } from '../RawDataTypes';
 import { DataModelBase, IDecorators } from './Base';
 import { ReplicaOnPartitionCollection } from './collections/Collections';
 import { DataService } from 'src/app/services/data.service';
@@ -11,10 +11,10 @@ import { HealthBase } from './HealthEvent';
 import { PartitionBackupInfo } from './PartitionBackupInfo';
 import { Observable } from 'rxjs';
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // Licensed under the MIT License. See License file under the project root for license information.
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 export class Partition extends DataModelBase<IRawPartition> {
     public partitionInformation: PartitionInformation;
@@ -54,7 +54,7 @@ export class Partition extends DataModelBase<IRawPartition> {
     }
 
     public get IsStatefulServiceAndSystemService(): Boolean {
-        return this.isStatefulService && this.parent.parent.raw.TypeName !== "System";
+        return this.isStatefulService && this.parent.parent.raw.TypeName !== 'System';
     }
 
     protected retrieveNewData(messageHandler?: IResponseMessageHandler): Observable<IRawPartition> {
@@ -64,8 +64,8 @@ export class Partition extends DataModelBase<IRawPartition> {
 
 export class PartitionHealth extends HealthBase<IRawPartitionHealth> {
     public constructor(data: DataService, public parent: Partition,
-        protected eventsHealthStateFilter: HealthStateFilterFlags,
-        protected replicasHealthStateFilter: HealthStateFilterFlags) {
+                       protected eventsHealthStateFilter: HealthStateFilterFlags,
+                       protected replicasHealthStateFilter: HealthStateFilterFlags) {
         super(data, parent);
     }
 
@@ -91,7 +91,7 @@ export class PartitionInformation extends DataModelBase<IRawPartitionInformation
 
 export class PartitionLoadInformation extends DataModelBase<IRawPartitionLoadInformation> {
     public decorators: IDecorators = {
-        hideList: ["PartitionId"]
+        hideList: ['PartitionId']
     };
 
     public primaryLoadMetricReports: LoadMetricReport[] = [];

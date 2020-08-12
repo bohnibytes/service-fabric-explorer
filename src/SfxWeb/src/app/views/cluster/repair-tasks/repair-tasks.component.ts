@@ -21,7 +21,7 @@ export class RepairTasksComponent extends BaseController {
   repairTasks: RepairTask[];
   completedRepairTasks: RepairTask[];
 
-  //used for timeline
+  // used for timeline
   sortedRepairTasks: RepairTask[] = [];
   sortedCompletedRepairTasks: RepairTask[] = [];
 
@@ -35,48 +35,48 @@ export class RepairTasksComponent extends BaseController {
    }
 
   setup() {
-    this.repairTaskListSettings = this.settings.getNewOrExistingListSettings("repair", null,
+    this.repairTaskListSettings = this.settings.getNewOrExistingListSettings('repair', null,
     [
-        new ListColumnSetting("raw.TaskId", "TaskId"),
-        new ListColumnSetting("raw.Action", "Action", ["raw.Action"], true),
-        new ListColumnSetting("raw.Target.NodeNames", "Target"),
-        new ListColumnSetting("impactedNodes", "Impact"),
-        new ListColumnSetting("raw.State", "State", ["raw.State"], true),
-        new ListColumnSetting("createdAt", "Created at"),
-        new ListColumnSetting("displayDuration", "Duration"),
+        new ListColumnSetting('raw.TaskId', 'TaskId'),
+        new ListColumnSetting('raw.Action', 'Action', ['raw.Action'], true),
+        new ListColumnSetting('raw.Target.NodeNames', 'Target'),
+        new ListColumnSetting('impactedNodes', 'Impact'),
+        new ListColumnSetting('raw.State', 'State', ['raw.State'], true),
+        new ListColumnSetting('createdAt', 'Created at'),
+        new ListColumnSetting('displayDuration', 'Duration'),
     ],
     [
       new ListColumnSettingWithCustomComponent(RepairTaskViewComponent,
-        "",
-        "",
+        '',
+        '',
         [],
         false,
         -1
         )
-  ],  
+  ],
     true,
     (item) => (Object.keys(item).length > 0),
     true);
 
-    this.completedRepairTaskListSettings = this.settings.getNewOrExistingListSettings("completedRepair", null,
+    this.completedRepairTaskListSettings = this.settings.getNewOrExistingListSettings('completedRepair', null,
         [
-            new ListColumnSetting("raw.TaskId", "TaskId"),
-            new ListColumnSetting("raw.Action", "Action", ["raw.Action"], true),
-            new ListColumnSetting("raw.Target.NodeNames", "Target"),
-            new ListColumnSetting("impactedNodes", "Impact"),
-            new ListColumnSetting("raw.ResultStatus", "Result Status", ["raw.ResultStatus"], true),
-            new ListColumnSetting("createdAt", "Created at"),
-            new ListColumnSetting("displayDuration", "Duration"),
+            new ListColumnSetting('raw.TaskId', 'TaskId'),
+            new ListColumnSetting('raw.Action', 'Action', ['raw.Action'], true),
+            new ListColumnSetting('raw.Target.NodeNames', 'Target'),
+            new ListColumnSetting('impactedNodes', 'Impact'),
+            new ListColumnSetting('raw.ResultStatus', 'Result Status', ['raw.ResultStatus'], true),
+            new ListColumnSetting('createdAt', 'Created at'),
+            new ListColumnSetting('displayDuration', 'Duration'),
         ],
         [
           new ListColumnSettingWithCustomComponent(RepairTaskViewComponent,
-            "",
-            "",
+            '',
+            '',
             [],
             false,
             -1
             )
-      ],  
+      ],
         true,
         (item) => true,
         true);
@@ -91,8 +91,8 @@ export class RepairTasksComponent extends BaseController {
   }
 
   generateTimeLineData(tasks: RepairTask[]) {
-    let items = new DataSet<DataItem>();
-    let groups = new DataSet<DataGroup>();
+    const items = new DataSet<DataItem>();
+    const groups = new DataSet<DataGroup>();
 
     tasks.forEach(task => {
         items.add({
@@ -100,25 +100,25 @@ export class RepairTasksComponent extends BaseController {
           content: task.raw.TaskId,
           start: task.startTime ,
           end: task.inProgress ? new Date() : new Date(task.raw.History.CompletedUtcTimestamp),
-          type: "range",
-          group: "job",
-          subgroup: "stack",
-          className: task.inProgress ? 'blue' : task.raw.ResultStatus === "Succeeded" ? 'green' : 'red',
+          type: 'range',
+          group: 'job',
+          subgroup: 'stack',
+          className: task.inProgress ? 'blue' : task.raw.ResultStatus === 'Succeeded' ? 'green' : 'red',
           title: EventStoreUtils.tooltipFormat(task.raw, new Date(task.raw.History.ExecutingUtcTimestamp).toLocaleString(),
                                                          new Date(task.raw.History.CompletedUtcTimestamp).toLocaleString()),
-        })
-    })
+        });
+    });
 
     groups.add({
-      id: "job",
-      content: "Job History",
-      subgroupStack: {"stack": true}
-    })
+      id: 'job',
+      content: 'Job History',
+      subgroupStack: {stack: true}
+    });
 
     this.timelineData = {
       groups,
       items,
-    }
+    };
   }
 
   refresh(messageHandler?: IResponseMessageHandler): Observable<any> {
@@ -126,12 +126,12 @@ export class RepairTasksComponent extends BaseController {
       this.completedRepairTasks = [];
       this.repairTasks = [];
       data.map(json => new RepairTask(json)).forEach(task => {
-        if(task.inProgress) {
+        if (task.inProgress) {
           this.repairTasks.push(task);
         }else {
           this.completedRepairTasks.push(task);
         }
-      })
-    }))
+      });
+    }));
   }
 }

@@ -16,8 +16,8 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
   private chart: Chart;
 
   fontColor = {
-    color: "#fff"
-  }
+    color: '#fff'
+  };
 
   public options: Options = {
     chart: {
@@ -32,25 +32,25 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
       y: 0,
       x: 10,
       style: {
-        color: "#fff",
-        fontSize: "15pt"
+        color: '#fff',
+        fontSize: '15pt'
       }
     },
     subtitle: {
-      text: "5",
+      text: '5',
       align: 'left',
       verticalAlign: 'middle',
       x: 25,
       y: 50,
       style: {
-        color: "#fff",
-        fontSize: "28pt"
+        color: '#fff',
+        fontSize: '28pt'
       }
     },
     tooltip: {
       enabled: false,
       animation: false,
-      formatter: function () {
+      formatter() {
         return `${this.point.name} : ${this.y}`;
       }
     },
@@ -74,13 +74,13 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
       }
     },
     series: [{
-      type: "pie",
+      type: 'pie',
       data:
         [
           {
-            name: "",
+            name: '',
             y: 1,
-            color: "gray"
+            color: 'gray'
           }
         ],
       states: {
@@ -97,8 +97,8 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    let margin = 3;
-    let width = (this.data.largeTile ? 200 : 140) + margin * 2;
+    const margin = 3;
+    const width = (this.data.largeTile ? 200 : 140) + margin * 2;
     this.options.chart.height = width;
     this.options.chart.width = width;
 
@@ -107,7 +107,7 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
 
     const data = this.getDataSet();
     this.options.tooltip.enabled = data.length === 3;
-    this.options.series[0]['data'] = data;
+    this.options.series[0].data = data;
 
     if (!this.data.largeTile) {
       this.options.title.style.fontSize = '13pt';
@@ -123,26 +123,26 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
 
   getDataSet(): PointOptionsObject[] {
     const colors = {
-      'Healthy': "green",
-      'Warning': 'yellow',
-      'Error': 'red'
-    }
+      Healthy: 'green',
+      Warning: 'yellow',
+      Error: 'red'
+    };
 
-    let data = this.data.dataPoints.map(p => {
+    const data = this.data.dataPoints.map(p => {
       return {
         name: p.title,
         y: p.count,
         color: colors[p.title]
-      }
+      };
     });
 
-    //if there is no data we want gray rings.
+    // if there is no data we want gray rings.
     // so we need to push a gray entry
     if (data.every(d => d.y === 0)) {
       data.push({
-        name: "",
+        name: '',
         y: 1,
-        color: "gray"
+        color: 'gray'
       });
     }
     return data;
@@ -153,8 +153,8 @@ export class DashboardTileComponent implements OnInit, AfterViewInit {
       const data = this.getDataSet();
       this.chart.tooltip.update({ enabled: data.length === 3 });
       this.chart.series[0].setData(data);
-      this.chart.title.update({ text: this.data.displayTitle })
-      this.chart.subtitle.update({text: this.data.count.toString()})
+      this.chart.title.update({ text: this.data.displayTitle });
+      this.chart.subtitle.update({text: this.data.count.toString()});
     }
   }
 

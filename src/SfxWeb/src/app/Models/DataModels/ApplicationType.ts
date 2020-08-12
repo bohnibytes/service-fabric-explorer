@@ -1,4 +1,4 @@
-﻿import { DataModelBase } from './Base';
+import { DataModelBase } from './Base';
 import { IRawApplicationType } from '../RawDataTypes';
 import { ServiceTypeCollection, ApplicationCollection } from './collections/Collections';
 import { DataService } from 'src/app/services/data.service';
@@ -13,10 +13,10 @@ import { Utils } from 'src/app/Utils/Utils';
 import { ActionWithConfirmationDialog, IsolatedAction } from '../Action';
 import { CreateApplicationComponent } from 'src/app/views/application-type/create-application/create-application.component';
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // Licensed under the MIT License. See License file under the project root for license information.
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 export class ApplicationType extends DataModelBase<IRawApplicationType> {
     public serviceTypes: ServiceTypeCollection;
@@ -31,7 +31,7 @@ export class ApplicationType extends DataModelBase<IRawApplicationType> {
     }
 
     public get id(): string {
-        return this.raw.Name + " " + this.raw.Version;
+        return this.raw.Name + ' ' + this.raw.Version;
     }
 
     public get viewPath(): string {
@@ -50,27 +50,27 @@ export class ApplicationType extends DataModelBase<IRawApplicationType> {
 
         this.actions.add(new ActionWithConfirmationDialog(
             this.data.dialog,
-            "unprovisionAppType",
-            "Unprovision",
-            "Unprovisioning",
+            'unprovisionAppType',
+            'Unprovision',
+            'Unprovisioning',
             () => this.unprovision(),
             () => true,
-            "Confirm Type Unprovision",
+            'Confirm Type Unprovision',
             `Unprovision application type ${this.name}@${this.raw.Version} from cluster ${window.location.host}?`,
             `${this.name}@${this.raw.Version}`
         ));
 
         this.actions.add(new IsolatedAction(
             this.data.dialog,
-            "createAppInstance",
-            "create",
-            "Creating",
+            'createAppInstance',
+            'create',
+            'Creating',
             {
                 appType: this,
             },
             CreateApplicationComponent,
             () => true)
-            )
+            );
     }
 }
 
@@ -110,9 +110,9 @@ export class ApplicationTypeGroup extends DataModelBase<IRawApplicationType> {
 
     protected retrieveNewData(messageHandler?: IResponseMessageHandler): Observable<IRawApplicationType> {
         return this.data.restClient.getApplicationTypes(this.name, messageHandler).pipe(map(response => {
-            CollectionUtils.updateDataModelCollection(this.appTypes, response.map( rawAppType => new ApplicationType(this.data, rawAppType)))
+            CollectionUtils.updateDataModelCollection(this.appTypes, response.map( rawAppType => new ApplicationType(this.data, rawAppType)));
             return response[0];
-            }))
+            }));
     }
 
 
@@ -120,12 +120,12 @@ export class ApplicationTypeGroup extends DataModelBase<IRawApplicationType> {
         // TODO
         this.actions.add(new ActionWithConfirmationDialog(
             this.data.dialog,
-            "unprovisionType",
-            "Unprovision Type",
-            "Unprovisioning",
+            'unprovisionType',
+            'Unprovision Type',
+            'Unprovisioning',
             () => this.unprovision(),
             () => true,
-            "Confirm Type Unprovision",
+            'Confirm Type Unprovision',
             `Unprovision all versions of application type ${this.name} from cluster ${window.location.host}?`,
             this.name
         ));
@@ -133,7 +133,7 @@ export class ApplicationTypeGroup extends DataModelBase<IRawApplicationType> {
 
     private unprovision(): Observable<any> {
         return this.data.getAppTypeGroup(this.name, true).pipe(map(appTypeGroup => {
-            let unprovisonPromises = [];
+            const unprovisonPromises = [];
             appTypeGroup.appTypes.forEach(applicationType => {
                 unprovisonPromises.push(applicationType.unprovision());
             });
